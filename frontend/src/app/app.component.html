@@ -1,0 +1,1037 @@
+@if (!isAdminLoggedIn) {
+
+  <!-- ================= LOGIN PAGE ================= -->
+  <div class="login-page">
+
+    <div class="login-card">
+
+      <div class="login-logo">
+        <div class="logo-icon">💼</div>
+        <h1>JobTrack</h1>
+        <p>Job Application Management</p>
+      </div>
+
+      <div class="login-form">
+
+        <h2>Admin Login</h2>
+        <p class="login-subtitle">
+          Sign in to access your administration portal
+        </p>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input
+            type="email"
+            [(ngModel)]="adminEmail"
+            placeholder="admin@gmail.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            [(ngModel)]="adminPassword"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <button class="login-btn" (click)="adminLogin()">
+          Sign In
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+
+@if (isAdminLoggedIn) {
+
+  <!-- ================= MAIN APPLICATION ================= -->
+  <div
+    class="app-shell"
+    [class.dark-mode]="isDarkMode"
+    [class.theme-blue]="selectedTheme === 'blue'"
+    [class.theme-purple]="selectedTheme === 'purple'"
+    [class.theme-green]="selectedTheme === 'green'"
+    [class.theme-orange]="selectedTheme === 'orange'"
+  >
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+      <div class="sidebar-logo">
+
+        <div class="sidebar-logo-icon">
+          💼
+        </div>
+
+        <h2>JobTrack</h2>
+        <p>Admin Portal</p>
+
+      </div>
+
+
+      <nav class="sidebar-nav">
+
+        <button
+          [class.active]="activeSection === 'dashboard'"
+          (click)="showSection('dashboard')"
+        >
+          <span>▣</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button
+          [class.active]="activeSection === 'users'"
+          (click)="showSection('users')"
+        >
+          <span>👥</span>
+          <span>Users</span>
+        </button>
+
+        <button
+          [class.active]="activeSection === 'applications'"
+          (click)="showSection('applications')"
+        >
+          <span>💼</span>
+          <span>Applications</span>
+        </button>
+
+        <button
+          [class.active]="activeSection === 'analytics'"
+          (click)="showSection('analytics')"
+        >
+          <span>📈</span>
+          <span>Analytics</span>
+        </button>
+
+      </nav>
+
+
+      <div class="sidebar-bottom">
+
+        <button
+          [class.active]="activeSection === 'settings'"
+          class="sidebar-setting"
+          (click)="showSection('settings')"
+        >
+          <span>⚙️</span>
+          <span>Settings</span>
+        </button>
+
+        <button
+          class="sidebar-logout"
+          (click)="adminLogout()"
+        >
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+
+
+      <!-- ================= TOP HEADER ================= -->
+      <header class="top-header">
+
+        <div class="header-search">
+
+          <span>⌕</span>
+
+          <input
+            type="text"
+            placeholder="Search..."
+          />
+
+        </div>
+
+
+        <div class="header-right">
+
+          <button class="notification-btn">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="admin-profile">
+
+            <div class="profile-avatar">
+              A
+            </div>
+
+            <div class="profile-info">
+              <strong>Admin</strong>
+              <span>Administrator</span>
+            </div>
+
+            <span class="profile-arrow">⌄</span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================================================= -->
+      <!-- DASHBOARD -->
+      <!-- ================================================= -->
+
+      @if (activeSection === 'dashboard') {
+
+        <section class="page-content">
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Dashboard</h1>
+
+              <p>
+                Welcome back, Admin 👋
+              </p>
+
+              <span>
+                Here's what's happening with your job applications.
+              </span>
+            </div>
+
+            <button class="primary-btn">
+              + New Application
+            </button>
+
+          </div>
+
+
+          <!-- ================= STAT CARDS ================= -->
+
+          <div class="stats-grid">
+
+            <div class="stat-card">
+
+              <div class="stat-icon users-icon">
+                👥
+              </div>
+
+              <div class="stat-details">
+
+                <span>Total Users</span>
+
+                <strong>
+                  {{ totalUsers }}
+                </strong>
+
+                <small class="positive">
+                  ↑ 12.5% from last month
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-icon application-icon">
+                💼
+              </div>
+
+              <div class="stat-details">
+
+                <span>Applications</span>
+
+                <strong>
+                  {{ totalApplications }}
+                </strong>
+
+                <small class="positive">
+                  ↑ 8.2% from last month
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-icon interview-icon">
+                📅
+              </div>
+
+              <div class="stat-details">
+
+                <span>Interviews</span>
+
+                <strong>
+                  {{ interviewCount }}
+                </strong>
+
+                <small class="positive">
+                  ↑ 4.6% from last month
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-icon selected-icon">
+                ✓
+              </div>
+
+              <div class="stat-details">
+
+                <span>Selected</span>
+
+                <strong>
+                  {{ selectedCount }}
+                </strong>
+
+                <small class="positive">
+                  ↑ 6.4% from last month
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ================= DASHBOARD ROW ================= -->
+
+          <div class="dashboard-grid">
+
+
+            <!-- RECENT APPLICATIONS -->
+
+            <div class="dashboard-card recent-card">
+
+              <div class="card-header">
+
+                <div>
+                  <h2>Recent Applications</h2>
+                  <p>Latest job applications</p>
+                </div>
+
+                <button
+                  class="text-btn"
+                  (click)="showSection('applications')"
+                >
+                  View All →
+                </button>
+
+              </div>
+
+
+              <div class="table-wrapper">
+
+                <table>
+
+                  <thead>
+
+                    <tr>
+                      <th>Company</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                    </tr>
+
+                  </thead>
+
+
+                  <tbody>
+
+                    @for (
+                      application of applications.slice(0, 5);
+                      track application.applicationId
+                    ) {
+
+                      <tr>
+
+                        <td>
+
+                          <div class="company-cell">
+
+                            <div class="company-logo">
+                              {{ application.companyName?.charAt(0) }}
+                            </div>
+
+                            <strong>
+                              {{ application.companyName }}
+                            </strong>
+
+                          </div>
+
+                        </td>
+
+                        <td>
+                          {{ application.jobRole }}
+                        </td>
+
+                        <td>
+
+                          <span
+                            class="status-badge"
+                            [class.applied]="application.status === 'APPLIED'"
+                            [class.interview]="application.status === 'INTERVIEW'"
+                            [class.selected]="application.status === 'SELECTED'"
+                            [class.rejected]="application.status === 'REJECTED'"
+                          >
+                            {{ application.status }}
+                          </span>
+
+                        </td>
+
+                        <td>
+                          {{ application.appliedDate }}
+                        </td>
+
+                      </tr>
+
+                    }
+
+                    @if (applications.length === 0) {
+
+                      <tr>
+
+                        <td
+                          colspan="4"
+                          class="empty-message"
+                        >
+                          No applications available
+                        </td>
+
+                      </tr>
+
+                    }
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+
+
+            <!-- APPLICATION STATUS -->
+
+            <div class="dashboard-card status-card">
+
+              <div class="card-header">
+
+                <div>
+                  <h2>Application Status</h2>
+                  <p>Current application overview</p>
+                </div>
+
+              </div>
+
+
+              <div class="status-list">
+
+
+                <div class="status-item">
+
+                  <div class="status-label">
+
+                    <span class="status-dot applied-dot"></span>
+
+                    <span>Applied</span>
+
+                    <strong>{{ appliedCount }}</strong>
+
+                  </div>
+
+                  <div class="progress-bar">
+
+                    <div
+                      class="progress applied-progress"
+                      [style.width.%]="getStatusPercentage(appliedCount)"
+                    ></div>
+
+                  </div>
+
+                  <small>
+                    {{ getStatusPercentage(appliedCount) }}%
+                  </small>
+
+                </div>
+
+
+                <div class="status-item">
+
+                  <div class="status-label">
+
+                    <span class="status-dot interview-dot"></span>
+
+                    <span>Interview</span>
+
+                    <strong>{{ interviewCount }}</strong>
+
+                  </div>
+
+                  <div class="progress-bar">
+
+                    <div
+                      class="progress interview-progress"
+                      [style.width.%]="getStatusPercentage(interviewCount)"
+                    ></div>
+
+                  </div>
+
+                  <small>
+                    {{ getStatusPercentage(interviewCount) }}%
+                  </small>
+
+                </div>
+
+
+                <div class="status-item">
+
+                  <div class="status-label">
+
+                    <span class="status-dot selected-dot"></span>
+
+                    <span>Selected</span>
+
+                    <strong>{{ selectedCount }}</strong>
+
+                  </div>
+
+                  <div class="progress-bar">
+
+                    <div
+                      class="progress selected-progress"
+                      [style.width.%]="getStatusPercentage(selectedCount)"
+                    ></div>
+
+                  </div>
+
+                  <small>
+                    {{ getStatusPercentage(selectedCount) }}%
+                  </small>
+
+                </div>
+
+
+                <div class="status-item">
+
+                  <div class="status-label">
+
+                    <span class="status-dot rejected-dot"></span>
+
+                    <span>Rejected</span>
+
+                    <strong>{{ rejectedCount }}</strong>
+
+                  </div>
+
+                  <div class="progress-bar">
+
+                    <div
+                      class="progress rejected-progress"
+                      [style.width.%]="getStatusPercentage(rejectedCount)"
+                    ></div>
+
+                  </div>
+
+                  <small>
+                    {{ getStatusPercentage(rejectedCount) }}%
+                  </small>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ================================================= -->
+      <!-- USERS -->
+      <!-- ================================================= -->
+
+      @if (activeSection === 'users') {
+
+        <section class="page-content">
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Users</h1>
+              <p>Manage registered users</p>
+            </div>
+
+            <button class="primary-btn">
+              + Add User
+            </button>
+
+          </div>
+
+
+          <div class="dashboard-card full-card">
+
+            <div class="card-header">
+
+              <div>
+                <h2>User Management</h2>
+                <p>{{ totalUsers }} registered users</p>
+              </div>
+
+              <input
+                class="search-input"
+                type="text"
+                placeholder="Search users..."
+              />
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  @for (
+                    user of users;
+                    track user.userId
+                  ) {
+
+                    <tr>
+
+                      <td>
+                        #{{ user.userId }}
+                      </td>
+
+                      <td>
+
+                        <div class="company-cell">
+
+                          <div class="user-avatar">
+                            {{ user.name?.charAt(0) }}
+                          </div>
+
+                          <strong>
+                            {{ user.name }}
+                          </strong>
+
+                        </div>
+
+                      </td>
+
+                      <td>
+                        {{ user.email }}
+                      </td>
+
+                      <td>
+                        {{ user.phone }}
+                      </td>
+
+                      <td>
+
+                        <button
+                          class="action-btn edit"
+                          (click)="editUser(user)"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          class="action-btn delete"
+                          (click)="deleteUser(user.userId)"
+                        >
+                          Delete
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ================================================= -->
+      <!-- APPLICATIONS -->
+      <!-- ================================================= -->
+
+      @if (activeSection === 'applications') {
+
+        <section class="page-content">
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Applications</h1>
+              <p>Manage all job applications</p>
+            </div>
+
+            <button class="primary-btn">
+              + New Application
+            </button>
+
+          </div>
+
+
+          <div class="dashboard-card full-card">
+
+            <div class="card-header">
+
+              <div>
+                <h2>Job Applications</h2>
+
+                <p>
+                  {{ totalApplications }} total applications
+                </p>
+
+              </div>
+
+              <select class="filter-select">
+
+                <option>All Status</option>
+                <option>APPLIED</option>
+                <option>INTERVIEW</option>
+                <option>SELECTED</option>
+                <option>REJECTED</option>
+
+              </select>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+                    <th>Company</th>
+                    <th>Job Role</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  @for (
+                    application of applications;
+                    track application.applicationId
+                  ) {
+
+                    <tr>
+
+                      <td>
+
+                        <div class="company-cell">
+
+                          <div class="company-logo">
+                            {{ application.companyName?.charAt(0) }}
+                          </div>
+
+                          <strong>
+                            {{ application.companyName }}
+                          </strong>
+
+                        </div>
+
+                      </td>
+
+                      <td>
+                        {{ application.jobRole }}
+                      </td>
+
+                      <td>
+                        {{ application.location }}
+                      </td>
+
+                      <td>
+
+                        <span
+                          class="status-badge"
+                          [class.applied]="application.status === 'APPLIED'"
+                          [class.interview]="application.status === 'INTERVIEW'"
+                          [class.selected]="application.status === 'SELECTED'"
+                          [class.rejected]="application.status === 'REJECTED'"
+                        >
+                          {{ application.status }}
+                        </span>
+
+                      </td>
+
+                      <td>
+                        {{ application.appliedDate }}
+                      </td>
+
+                      <td>
+
+                        <button
+                          class="action-btn edit"
+                          (click)="editApplication(application)"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          class="action-btn delete"
+                          (click)="deleteApplication(application.applicationId)"
+                        >
+                          Delete
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ================================================= -->
+      <!-- ANALYTICS -->
+      <!-- ================================================= -->
+
+      @if (activeSection === 'analytics') {
+
+        <section class="page-content">
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Analytics</h1>
+              <p>Track your application performance</p>
+            </div>
+
+          </div>
+
+
+          <div class="analytics-grid">
+
+            <div class="dashboard-card analytics-main">
+
+              <h2>Application Overview</h2>
+
+              <div class="analytics-number">
+                {{ totalApplications }}
+              </div>
+
+              <p>Total applications submitted</p>
+
+              <div class="analytics-bars">
+
+                <div>
+                  <span>Applied</span>
+
+                  <div class="progress-bar">
+                    <div
+                      class="progress applied-progress"
+                      [style.width.%]="getStatusPercentage(appliedCount)"
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <span>Interview</span>
+
+                  <div class="progress-bar">
+                    <div
+                      class="progress interview-progress"
+                      [style.width.%]="getStatusPercentage(interviewCount)"
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <span>Selected</span>
+
+                  <div class="progress-bar">
+                    <div
+                      class="progress selected-progress"
+                      [style.width.%]="getStatusPercentage(selectedCount)"
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <span>Rejected</span>
+
+                  <div class="progress-bar">
+                    <div
+                      class="progress rejected-progress"
+                      [style.width.%]="getStatusPercentage(rejectedCount)"
+                    ></div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+              <h2>Summary</h2>
+
+              <div class="summary-item">
+                <span>Total Users</span>
+                <strong>{{ totalUsers }}</strong>
+              </div>
+
+              <div class="summary-item">
+                <span>Applications</span>
+                <strong>{{ totalApplications }}</strong>
+              </div>
+
+              <div class="summary-item">
+                <span>Interviews</span>
+                <strong>{{ interviewCount }}</strong>
+              </div>
+
+              <div class="summary-item">
+                <span>Selected</span>
+                <strong>{{ selectedCount }}</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ================================================= -->
+      <!-- SETTINGS -->
+      <!-- ================================================= -->
+
+      @if (activeSection === 'settings') {
+
+        <section class="page-content">
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Settings</h1>
+              <p>Customize your dashboard</p>
+            </div>
+
+          </div>
+
+
+          <div class="settings-card">
+
+            <h2>Appearance</h2>
+
+
+            <div class="setting-item">
+
+              <div>
+                <strong>Dark Mode</strong>
+                <p>Switch between light and dark theme</p>
+              </div>
+
+              <button
+                class="toggle-btn"
+                [class.enabled]="isDarkMode"
+                (click)="toggleDarkMode()"
+              >
+                <span></span>
+              </button>
+
+            </div>
+
+
+            <div class="setting-item">
+
+              <div>
+                <strong>Dashboard Theme</strong>
+                <p>Choose your preferred color theme</p>
+              </div>
+
+              <select
+                class="theme-select"
+                [(ngModel)]="selectedTheme"
+                (change)="changeTheme()"
+              >
+
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+                <option value="green">Green</option>
+                <option value="orange">Orange</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+    </main>
+
+  </div>
+
+}
